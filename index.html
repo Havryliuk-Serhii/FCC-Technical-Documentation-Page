@@ -5,28 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>FCC-Technical-Documentation-Page</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
-    <nav>
-        <div class="logo"></div>
-        <div class="nav-menu">
-            <ul>
-                <li>About jQuery</li>
-                <li>Using jQuery Core</li>
-                <li>Events</li>
-                <li>Effects</li>
-                <li>Ajax</li>
-                <li>Plugins</li>
-                <li>Performance</li>
-                <li>Code Organization</li>
-                <li>jQuery UI</li>
-                <li>jQuery Mobile</li>
-            </ul>
-        </div>
-    </nav>
-</header>
+    <header>
+        <nav id="navbar" class="navbar navbar-light bg-light">
+            <div class="logo"><a class="navbar-brand" href="#">jQuery tutorial</a></div>
+            <div class="nav-menu">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+						<a class="nav-link active" id="nav-about-tab" data-toggle="tab"
+					href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="true">About jQuery</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link" id="nav-core-tab" data-toggle="tab" href="#nav-core" role="tab" aria-controls="nav-core" aria-selected="false">Using jQuery Core</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link" id="nav-events-tab" data-toggle="tab" href="#nav-events" role="tab" aria-controls="nav-events" aria-selected="false">Events</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link" id="nav-effects-tab" data-toggle="tab" href="#nav-effects" role="tab" aria-controls="nav-effects" aria-selected="false">Effects</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link" id="nav-ajax-tab" data-toggle="tab" href="#nav-ajax" role="tab" aria-controls="nav-ajax" aria-selected="false">Ajax</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link" id="nav-plugins-tab" data-toggle="tab" href="#nav-plugins" role="tab" aria-controls="nav-plugins" aria-selected="false">Plugins</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link" id="nav-performance-tab" data-toggle="tab" href="#nav-performance" role="tab" aria-controls="nav-performance" aria-selected="false">Performance</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link" id="nav-organization-tab" data-toggle="tab" href="#nav-organization" role="tab" aria-controls="nav-organization" aria-selected="false">Code Organization</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link" id="nav-ua-tab" data-toggle="tab" href="#nav-ua" role="tab" aria-controls="nav-ua" aria-selected="false">jQuery UI</a>
+					</li>
+                    <li class="nav-item">
+						<a class="nav-link" id="nav-mobile-tab" data-toggle="tab" href="#nav-mobile" role="tab" aria-controls="nav-mobile" aria-selected="false">jQuery Mobile</a>
+					</li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+		<main id="main-doc">
+			<div class="tab-content" id="nav-tabContent">
+				<div class="tab-pane fade show active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+					<section class="main-section" id="">
+						<header>About jQuery</header>
+						<div class="entry-content">
+							<p>Getting started with jQuery can be easy or challenging, depending on your experience with JavaScript, HTML, CSS, and programming concepts in general. In addition to these articles, you can read about the <a href="https://jquery.org/history/">history of jQuery</a> and the <a href="https://jquery.org/license/">licensing terms</a> that apply to jQuery projects. You can also <a href="https://jquery.org/donate/">make a donation</a> to help the <a href="https://jquery.org/team/">jQuery team</a> continue to improve jQuery.</p>
+							<p>One important thing to know is that jQuery is just a <strong>JavaScript library</strong>. All the power of jQuery is accessed via JavaScript, so having a strong grasp of JavaScript is essential for understanding, structuring, and debugging your code. While working with jQuery regularly can, over time, improve your proficiency with JavaScript, it can be hard to get started writing jQuery without a working knowledge of JavaScript's built-in constructs and syntax. Therefore, if you're new to JavaScript, we recommend checking out the <a href="https://developer.mozilla.org/en-US/Learn/Getting_started_with_the_web/JavaScript_basics">JavaScript basics tutorial</a> on the Mozilla Developer Network (MDN).</p>						<ul>
+								<li class="page_item page-item-53"><a href="https://learn.jquery.com/about-jquery/how-jquery-works/">How jQuery Works</a></li>
+								<li class="page_item page-item-33"><a href="https://learn.jquery.com/about-jquery/additional-support/">Additional jQuery Support</a></li>
+							</ul>
+						</div>
+					</section>
+				</div>
+				<div class="tab-pane fade" id="nav-core" role="tabpanel" aria-labelledby="nav-core-tab">
+			2
+				</div>
+				<div class="tab-pane fade" id="nav-events" role="tabpanel" aria-labelledby="nav-events-tab">
+				
+				</div>
+				<div class="tab-pane fade" id="nav-effects" role="tabpanel" aria-labelledby="nav-effects-tab">
+				
+				</div>
+				<div class="tab-pane fade" id="nav-nav-ajax" role="tabpanel" aria-labelledby="nav-ajax-tab">
+				
+				</div>
+				<div class="tab-pane fade" id="nav-plugins" role="tabpanel" aria-labelledby="nav-plugins-tab">
+				
+				</div>
+				<div class="tab-pane fade" id="nav-performance" role="tabpanel" aria-labelledby="nav-performance-tab">
+				
+				</div>
+				<div class="tab-pane fade" id="nav-organization" role="tabpanel" aria-labelledby="nav-organization-tab">
+				
+				</div>
+				<div class="tab-pane fade" id="nav-ua" role="tabpanel" aria-labelledby="nav-ua-tab">
+				
+				</div>
+				<div class="tab-pane fade" id="nav-mobile" role="tabpanel" aria-labelledby="nav-mobile-tab">
+				
+				</div>
+			</div>
+		</main>
     <footer>
         All materials taken from <a href="https://learn.jquery.com/">learn.jquery.com</a>
     </footer>
