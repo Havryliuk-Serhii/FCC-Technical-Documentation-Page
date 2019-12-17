@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+	<div class="wrapper">
     <header>
         <nav id="navbar" class="navbar navbar-light bg-light">
             <div class="logo"><a class="navbar-brand" href="#">jQuery tutorial</a></div>
@@ -53,17 +54,16 @@
 		<div class="container">
 			<div class="tab-content" id="myTabContent">
 				<div class="tab-pane fade show active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
-					<section class="main-section" id="">
+					<section class="main-section" id="about">
 						<header>About jQuery</header>
 						<div class="entry-content">
 							<p>Getting started with jQuery can be easy or challenging, depending on your experience with JavaScript, HTML, CSS, and programming concepts in general. In addition to these articles, you can read about the <a href="https://jquery.org/history/">history of jQuery</a> and the <a href="https://jquery.org/license/">licensing terms</a> that apply to jQuery projects. You can also <a href="https://jquery.org/donate/">make a donation</a> to help the <a href="https://jquery.org/team/">jQuery team</a> continue to improve jQuery.</p>
 							<p>One important thing to know is that jQuery is just a <strong>JavaScript library</strong>. All the power of jQuery is accessed via JavaScript, so having a strong grasp of JavaScript is essential for understanding, structuring, and debugging your code. While working with jQuery regularly can, over time, improve your proficiency with JavaScript, it can be hard to get started writing jQuery without a working knowledge of JavaScript's built-in constructs and syntax. Therefore, if you're new to JavaScript, we recommend checking out the <a href="https://developer.mozilla.org/en-US/Learn/Getting_started_with_the_web/JavaScript_basics">JavaScript basics tutorial</a> on the Mozilla Developer Network (MDN).</p>
 							<article id="post-53" class="post-53 page type-page status-publish hentry">
-	<header class="entry-header">
-		<h1 class="entry-title">How jQuery Works</h1>
-	</header>
-
-	<div class="entry-content">
+								<header class="entry-header">
+									<h2 class="entry-title">How jQuery Works</h2>
+								</header>
+							<div class="entry-content">
 		<h3 class="toc-linked"><a href="#jquery-the-basics" id="jquery-the-basics" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> jQuery: The Basics</h3><p>This is a basic tutorial, designed to help you get started using jQuery. If you don't have a test page setup yet, start by creating the following HTML page:</p>
 <div class="syntaxhighlighter xml">
 	<table>
@@ -104,10 +104,59 @@
 					
 						<div class="line n16">16</div>
 					
-				</td>
-				
+				</td>				
 				<td class="code">
-					<pre><div class="container"><div class="line"><code><span class="doctype">&lt;!doctype html&gt;</span></code></div></div><div class="container"><div class="line"><code><span class="tag">&lt;<span class="title">html</span>&gt;</span></code></div></div><div class="container"><div class="line"><code><span class="tag">&lt;<span class="title">head</span>&gt;</span></code></div></div><div class="container"><div class="line"><code>    <span class="tag">&lt;<span class="title">meta</span> <span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span></code></div></div><div class="container"><div class="line"><code>    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Demo<span class="tag">&lt;/<span class="title">title</span>&gt;</span></code></div></div><div class="container"><div class="line"><code><span class="tag">&lt;/<span class="title">head</span>&gt;</span></code></div></div><div class="container"><div class="line"><code><span class="tag">&lt;<span class="title">body</span>&gt;</span></code></div></div><div class="container"><div class="line"><code>    <span class="tag">&lt;<span class="title">a</span> <span class="attribute">href</span>=<span class="value">"http://jquery.com/"</span>&gt;</span>jQuery<span class="tag">&lt;/<span class="title">a</span>&gt;</span></code></div></div><div class="container"><div class="line"><code>    <span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"jquery.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></div></div><div class="container"><div class="line"><code>    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span></code></div></div><div class="container"><div class="line"><code> </code></div></div><div class="container"><div class="line"><code>    <span class="comment">// Your code goes here.</span></code></div></div><div class="container"><div class="line"><code> </code></div></div><div class="container"><div class="line"><code>    <span class="tag">&lt;/<span class="title">script</span>&gt;</span></code></div></div><div class="container"><div class="line"><code><span class="tag">&lt;/<span class="title">body</span>&gt;</span></code></div></div><div class="container"><div class="line"><code><span class="tag">&lt;/<span class="title">html</span>&gt;</span></code></div></div></pre>
+					<pre>
+						<code>
+							<span class="doctype">&lt;!doctype html&gt;</span>
+						</code>
+						<code>
+							<span class="tag">&lt;<span class="title">html</span>&gt;</span>
+						</code>
+						<code>
+							<span class="tag">&lt;<span class="title">head</span>&gt;</span>
+						</code>
+						<code>
+							<span class="tag">&lt;<span class="title">meta</span>
+							<span class="attribute">charset</span>=<span class="value">"utf-8"</span>&gt;</span>
+						</code>
+						<code>
+						    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Demo<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+						</code>
+						<code>
+							<span class="tag">&lt;/<span class="title">head</span>&gt;</span>
+						</code>
+						<code>
+							<span class="tag">&lt;<span class="title">body</span>&gt;</span>
+						</code>
+						<code>
+						    <span class="tag">&lt;<span class="title">a</span> 
+						    <span class="attribute">href</span>=<span class="value">"http://jquery.com/"</span>&gt;</span>jQuery
+						    <span class="tag">&lt;/<span class="title">a</span>&gt;</span>
+						</code>
+						<code>
+						    <span class="tag">&lt;<span class="title">script</span>
+						    <span class="attribute">src</span>=<span class="value">"jquery.js"</span>&gt;</span>
+						    <span class="javascript"></span>
+						    <span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+						</code>
+						<code>
+						    <span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript"></span>
+						</code>
+						<code>
+						   <span class="comment">// Your code goes here.</span>
+						</code>
+						<code> </code>
+						<code>
+						    <span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+						</code>
+						<code>
+							<span class="tag">&lt;/<span class="title">body</span>&gt;</span>
+						</code>
+						<code>
+							<span class="tag">&lt;/<span class="title">html</span>&gt;</span>
+						</code>
+					</pre>
 				</td>
 			</tr>
 		</tbody>
@@ -137,7 +186,18 @@
 				</td>
 				
 				<td class="code">
-					<pre><div class="container"><div class="line"><code>window.onload = <span class="keyword">function</span>() {</code></div></div><div class="container"><div class="line"><code> </code></div></div><div class="container"><div class="line"><code>    alert( <span class="string">"welcome"</span> );</code></div></div><div class="container"><div class="line"><code> </code></div></div><div class="container"><div class="line"><code>};</code></div></div></pre>
+					<pre>
+						<code>window.onload = 
+							<span class="keyword">function</span>() {
+						</code>
+						<code>
+						 </code>
+						 <code>alert( 
+						 	<span class="string">"welcome"</span> );
+						 </code>
+						 <code> </code>
+						 <code>};</code>
+					</pre>
 				</td>
 			</tr>
 		</tbody>
@@ -1203,6 +1263,7 @@
 			</div>
 			</div>
 		</main>
+	</div>
     <footer class="bg-dark">
 		<div class="container">
 			<p class="text-center">All materials taken from <a href="https://learn.jquery.com/">learn.jquery.com</a></p>
