@@ -15,6 +15,7 @@
 	-o-flex-direction: row;
 	flex-direction: row;
 }
+
 .navbar{
 	float: left;
 	display: -webkit-flex;
@@ -27,7 +28,6 @@
 	-ms-flex-direction: column;
 	-o-flex-direction: column;
 	flex-direction: column;
-	width: 180px;
 }
 .nav-menu{
 	display: -webkit-flex;
