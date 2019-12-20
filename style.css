@@ -29,6 +29,9 @@
 	-o-flex-direction: column;
 	flex-direction: column;
 }
+.logo .navbar-brand{
+	font-weight: bold;
+}
 .nav-menu{
 	display: -webkit-flex;
 	display: -moz-flex;
@@ -58,6 +61,11 @@ ul, li{
 	float: right;
 	margin: 0;
 }
+.entry-title{
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
 footer{
 	height: 3em;
 	padding-top: 10px;
