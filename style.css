@@ -65,7 +65,94 @@ ul, li{
 	font-size: 1.5em;
 	font-weight: bold;
 }
-
+.syntaxhighlighter tr {
+    border-bottom: none;
+}
+.syntaxhighlighter table td.gutter {
+    border-right: 2px solid #999;
+}
+.syntaxhighlighter table td.code {
+    width: 100% !important;
+}
+.syntaxhighlighter table thead, .syntaxhighlighter table caption, .syntaxhighlighter textarea {
+    border-radius: 0 0 0 0 !important;
+    background: none !important;
+    bottom: auto !important;
+    float: none !important;
+    height: auto !important;
+    left: auto !important;
+    line-height: 1.1em !important;
+    margin: 0 !important;
+    outline: 0 !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    position: static !important;
+    right: auto !important;
+    text-align: left !important;
+    top: auto !important;
+    vertical-align: baseline !important;
+    width: auto !important;
+    box-sizing: content-box !important;
+    font-family: "source-code-pro", Consolas, monospace !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-size: 1em !important;
+    min-height: auto !important;
+}
+.syntaxhighlighter table td.gutter .line {
+    text-align: right !important;
+    padding: 0 0.5em 0 1em !important;
+}
+.syntaxhighlighter .line {
+    white-space: pre !important;
+}
+.syntaxhighlighter a,
+ .syntaxhighlighter div,
+  .syntaxhighlighter pre,
+   .syntaxhighlighter code,
+    .syntaxhighlighter table,
+     .syntaxhighlighter table td,
+      .syntaxhighlighter table tr,
+       .syntaxhighlighter table tbody,
+        .syntaxhighlighter table thead,
+         .syntaxhighlighter table caption,
+          .syntaxhighlighter textarea {
+    border-radius: 0 0 0 0 !important;
+    background: none !important;
+    bottom: auto !important;
+    float: none !important;
+    height: auto !important;
+    left: auto !important;
+    line-height: 1.1em !important;
+    margin: 0 !important;
+    outline: 0 !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    position: static !important;
+    right: auto !important;
+    text-align: left !important;
+    top: auto !important;
+    vertical-align: baseline !important;
+    width: auto !important;
+    box-sizing: content-box !important;
+    font-family: "source-code-pro", Consolas, monospace !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-size: 1em !important;
+    min-height: auto !important;
+}
+.syntaxhighlighter table tbody{
+	border-collapse: collapse;
+    border-spacing: 0;
+    height: auto;
+}
+pre, code {
+    word-spacing: 0;
+    white-space: pre;
+    word-wrap: normal;
+    text-align: left !important;
+    line-height: 1.1em !important;
+}
 footer{
 	height: 3em;
 	padding-top: 10px;

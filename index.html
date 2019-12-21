@@ -215,27 +215,700 @@
 					<div class="tab-pane fade" id="nav-ajax" role="tabpanel" aria-labelledby="nav-ajax-tab">
 						<section class="main-section">
 							<header class="entry-title">Ajax</header>
+							<div class="entry-content">
+								<p>Traditionally webpages required reloading to update their content. For web-based email this meant that users had to manually reload their inbox to check and see if they had new mail. This had huge drawbacks: it was slow and it required user input. When the user reloaded their inbox, the server had to reconstruct the entire web page and resend all of the HTML, CSS, JavaScript, as well as the user's email. This was hugely inefficient. Ideally, the server should only have to send the user's new messages, not the entire page. By 2003, all the major browsers solved this issue by adopting the XMLHttpRequest (XHR) object, allowing browsers to communicate with the server without requiring a page reload.</p>
+								<p>The XMLHttpRequest object is part of a technology called Ajax (Asynchronous JavaScript and XML). Using Ajax, data could then be passed between the browser and the server, using the XMLHttpRequest API, without having to reload the web page. With the widespread adoption of the XMLHttpRequest object it quickly became possible to build web applications like Google Maps, and Gmail that used XMLHttpRequest to get new map tiles, or new email without having to reload the entire page.</p>
+								<p>Ajax requests are triggered by JavaScript code; your code sends a request to a URL, and when it receives a response, a callback function can be triggered to handle the response. Because the request is asynchronous, the rest of your code continues to execute while the request is being processed, so it's imperative that a callback be used to handle the response.</p>
+								<p>Unfortunately, different browsers implement the Ajax API differently. Typically this meant that developers would have to account for all the different browsers to ensure that Ajax would work universally. Fortunately, jQuery provides Ajax support that abstracts away painful browser differences. It offers both a full-featured <code>$.ajax()</code> method, and simple convenience methods such as <code>$.get()</code>, <code>$.getScript()</code>, <code>$.getJSON()</code>, <code>$.post()</code>, and <code>$().load()</code>.</p>
+								<p>Most jQuery applications don't in fact use XML, despite the name "Ajax"; instead, they transport data as plain HTML or JSON (JavaScript Object Notation).</p>
+								<p>In general, Ajax does not work across domains. For instance, a webpage loaded from example1.com is unable to make an Ajax request to example2.com as it would violate the same origin policy. As a work around, JSONP (JSON with Padding) uses <code>&lt;script&gt;</code> tags to load files containing arbitrary JavaScript content and JSON, from another domain. More recently browsers have implemented a technology called Cross-Origin Resource Sharing (CORS), that allows Ajax requests to different domains.</p>
+								<header class="entry-header">
+									<h2>Key Concepts</h2>
+								</header>
+								<div class="entry-content">
+									<p>Proper use of Ajax-related jQuery methods requires understanding some key concepts first.</p>
+									<h3 class="toc-linked"><a href="#get-vs-post" id="get-vs-post" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> GET vs. POST</h3><p>The two most common "methods" for sending a request to a server are GET and POST. It's important to understand the proper application of each.</p>
+									<p>The GET method should be used for non-destructive operations — that is, operations where you are only "getting" data from the server, not changing data on the server. For example, a query to a search service might be a GET request. GET requests may be cached by the browser, which can lead to unpredictable behavior if you are not expecting it. GET requests generally send all of their data in a query string.</p>
+									<p>The POST method should be used for destructive operations — that is, operations where you are changing data on the server. For example, a user saving a blog post should be a POST request. POST requests are generally not cached by the browser; a query string can be part of the URL, but the data tends to be sent separately as post data.</p>
+									<h3 class="toc-linked"><a href="#data-types" id="data-types" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> Data Types</h3>
+										<p>jQuery generally requires some instruction as to the type of data you expect to get back from an Ajax request; in some cases the data type is specified by the method name, and in other cases it is provided as part of a configuration object. There are several options:</p>
+									<h4 class="toc-linked"><a href="#text" id="text" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> text</h4>
+										<p>For transporting simple strings.</p>
+									<h4 class="toc-linked"><a href="#html" id="html" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> html</h4>
+										<p>For transporting blocks of HTML to be placed on the page.</p>
+									<h4 class="toc-linked"><a href="#script" id="script" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> script</h4>
+										<p>For adding a new script to the page.</p>
+									<h4 class="toc-linked"><a href="#json" id="json" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> json</h4>
+										<p>For transporting JSON-formatted data, which can include strings, arrays, and objects.</p>
+										<p><strong>Note:</strong> As of jQuery 1.4, if the JSON data sent by your server isn't properly formatted, the request may fail silently. See <a href="http://json.org">http://json.org</a> for details on properly formatting JSON, but as a general rule, use built-in language methods for generating JSON on the server to avoid syntax issues.</p>
+									<h4 class="toc-linked"><a href="#jsonp" id="jsonp" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> jsonp</h4>
+										<p>For transporting JSON data from another domain.</p>
+									<h4 class="toc-linked"><a href="#xml" id="xml" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> xml</h4>
+										<p>For transporting data in a custom XML schema.</p>
+										<p>Consider using the JSON format in most cases, as it provides the most flexibility. It is especially useful for sending both HTML and data at the same time.</p>
+									<h3 class="toc-linked"><a href="#a-is-for-asynchronous" id="a-is-for-asynchronous" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> A is for Asynchronous</h3>
+										<p>The asynchronicity of Ajax catches many new jQuery users off guard. Because Ajax calls are asynchronous by default, the response is not immediately available. Responses can only be handled using a callback. So, for example, the following code will not work:</p>
+									<div class="syntaxhighlighter javascript">
+										<table>
+											<tbody>
+												<tr>				
+													<td class="gutter">									
+														<div class="line n1">1</div>				
+														<div class="line n2">2</div>		
+														<div class="line n3">3</div>				
+														<div class="line n4">4</div>				
+														<div class="line n5">5</div>				
+														<div class="line n6">6</div>			
+														<div class="line n7">7</div>			
+													</td>			
+													<td class="code">
+														<pre>
+															<div class="container">
+																<div class="line">
+																	<code>
+																		<span class="keyword">var</span> response;
+																	</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code> </code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>$.get( <span class="string">"foo.php"</span>, <span class="keyword">function</span>( r ) {
+																	</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    response = r;</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>});</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code> </code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>console.log( response ); <span class="comment">// undefined</span>
+																	</code>
+																</div>
+															</div>
+														</pre>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<p>Instead, we need to pass a callback function to our request; this callback will run when the request succeeds, at which point we can access the data that it returned, if any.</p>
+									<div class="syntaxhighlighter javascript">
+										<table>
+											<tbody>
+												<tr>				
+													<td class="gutter">					
+														<div class="line n1">1</div>					
+														<div class="line n2">2</div>					
+														<div class="line n3">3</div>					
+													</td>				
+													<td class="code">
+														<pre>
+															<div class="container">
+																<div class="line">
+																	<code>$.get( <span class="string">"foo.php"</span>, <span class="keyword">function</span>( response ) {
+																	</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    console.log( response ); <span class="comment">// server response</span>
+																	</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>});</code>
+																</div>
+															</div>
+														</pre>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<h3 class="toc-linked"><a href="#same-origin-policy-and-jsonp" id="same-origin-policy-and-jsonp" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> Same-Origin Policy and JSONP</h3>
+									<p>In general, Ajax requests are limited to the same protocol (http or https), the same port, and the same domain as the page making the request. This limitation does not apply to scripts that are loaded via jQuery's Ajax methods. </p>
+									<p>Note: Versions of Internet Explorer less than 10 do not support cross-domain AJAX requests. </p>
+									<p>The other exception is requests targeted at a JSONP service on another domain. In the case of JSONP, the provider of the service has agreed to respond to your request with a script that can be loaded into the page using a <code>&lt;script&gt;</code> tag, thus avoiding the same-origin limitation; that script will include the data you requested, wrapped in a callback function you provide.</p>
+									<h3 class="toc-linked"><a href="#ajax-and-firebug" id="ajax-and-firebug" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> Ajax and Firebug</h3>
+									<p>Firebug (or the Webkit Inspector in Chrome or Safari) is an invaluable tool for working with Ajax requests. You can see Ajax requests as they happen in the Console tab of Firebug (and in the Resources &gt; XHR panel of Webkit Inspector), and you can click on a request to expand it and see details such as the request headers, response headers, response content, and more. If something isn't going as expected with an Ajax request, this is the first place to look to track down what's wrong.</p>
+								</div>
+								<header class="entry-header">
+									<h1 class="entry-title">jQuery’s Ajax-Related Methods</h1>
+								</header>
+								<div class="entry-content">
+									<p>While jQuery does offer many Ajax-related convenience methods, the core <code>$.ajax()</code> method is at the heart of all of them, and understanding it is imperative. We'll review it first, and then touch briefly on the convenience methods.</p>
+									<p>It's often considered good practice to use the <code>$.ajax()</code> method over the jQuery provided <a href="#convenience-methods">convenience methods</a>. As you'll see, it offers features that the convenience methods do not, and its syntax allows for the ease of readability.</p>
+									<h3 class="toc-linked"><a href="#ajax-" id="ajax-" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> <code>$.ajax()</code></h3>
+									<p>jQuery’s core <code>$.ajax()</code> method is a powerful and straightforward way of creating Ajax requests. It takes a configuration object that contains all the instructions jQuery requires to complete the request. The <code>$.ajax()</code> method is particularly valuable because it offers the ability to specify both success and failure callbacks. Also, its ability to take a configuration object that can be defined separately makes it easier to write reusable code. For complete documentation of the configuration options, visit <a href="http://api.jquery.com/jQuery.ajax/">http://api.jquery.com/jQuery.ajax/</a>.</p>
+									<div class="syntaxhighlighter javascript">
+										<table>
+											<tbody>
+												<tr>
+													<td class="gutter">			
+														<div class="line n1">1</div>				
+														<div class="line n2">2</div>				
+														<div class="line n3">3</div>				
+														<div class="line n4">4</div>				
+														<div class="line n5">5</div>				
+														<div class="line n6">6</div>				
+														<div class="line n7">7</div>				
+														<div class="line n8">8</div>				
+														<div class="line n9">9</div>				
+														<div class="line n10">10</div>				
+														<div class="line n11">11</div>				
+														<div class="line n12">12</div>
+														<div class="line n13">13</div>
+														<div class="line n14">14</div>
+														<div class="line n15">15</div>
+														<div class="line n16">16</div>
+														<div class="line n17">17</div>
+														<div class="line n18">18</div>
+														<div class="line n19">19</div>
+														<div class="line n20">20</div>
+														<div class="line n21">21</div>
+														<div class="line n22">22</div>
+														<div class="line n23">23</div>
+														<div class="line n24">24</div>
+														<div class="line n25">25</div>
+														<div class="line n26">26</div>
+														<div class="line n27">27</div>
+														<div class="line n28">28</div>
+														<div class="line n29">29</div>
+														<div class="line n30">30</div>
+														<div class="line n31">31</div>
+														<div class="line n32">32</div>
+														<div class="line n33">33</div>
+														<div class="line n34">34</div>
+														<div class="line n35">35</div>
+													</td>				
+													<td class="code">
+														<pre>
+															<div class="container">
+																<div class="line">
+																	<code><span class="comment">// Using the core $.ajax() method</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>$.ajax({</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code> </code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    <span class="comment">// The URL for the request</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    url: <span class="string">"post.php"</span>,</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code> </code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    <span class="comment">// The data to send (will be converted to a query string)</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    data: {</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>        id: <span class="number">123</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    },</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code> </code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    <span class="comment">// Whether this is a POST or GET request</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    type: <span class="string">"GET"</span>,</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code> </code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    <span class="comment">// The type of data we expect back</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    dataType : <span class="string">"json"</span>,</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>})</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>  <span class="comment">// Code to run if the request succeeds (is done);</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>  <span class="comment">// The response is passed to the function</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>  .done(<span class="keyword">function</span>( json ) {</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>     $( <span class="string">"&lt;h1&gt;"</span> ).text( json.title ).appendTo( <span class="string">"body"</span> );</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>     $( <span class="string">"&lt;div class=\"content\"&gt;"</span>).html( json.html ).appendTo( <span class="string">"body"</span> );</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>  })</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>  <span class="comment">// Code to run if the request fails; the raw request and</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>  <span class="comment">// status codes are passed to the function</span>
+																	</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>  .fail(<span class="keyword">function</span>( xhr, status, errorThrown ) {</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    alert( <span class="string">"Sorry, there was a problem!"</span> );</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    console.log( <span class="string">"Error: "</span> + errorThrown );</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    console.log( <span class="string">"Status: "</span> + status );</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    console.dir( xhr );</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>  })</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>  <span class="comment">// Code to run regardless of success or failure;</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>  .always(<span class="keyword">function</span>( xhr, status ) {</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    alert( <span class="string">"The request is complete!"</span> );</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>  });</code>
+																</div>
+															</div>
+														</pre>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<p><strong>Note:</strong> Regarding the <code>dataType</code> setting, if the server sends back data that is in a different format than you specify, your code may fail, and the reason will not always be clear, because the HTTP response code will not show an error. When working with Ajax requests, make sure your server is sending back the data type you're asking for, and verify that the <code>Content-type</code> header is accurate for the data type. For example, for JSON data, the <code>Content-type</code> header should be <code>application/json</code>.</p>
+									<h3 class="toc-linked"><a href="#ajax-options" id="ajax-options" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> <code>$.ajax()</code> Options</h3><p>There are many, many options for the <code>$.ajax()</code> method, which is part of its power. For a complete list of options, visit <a href="http://api.jquery.com/jQuery.ajax/">http://api.jquery.com/jQuery.ajax/</a>; here are several that you will use frequently:</p>
+									<h4 class="toc-linked"><a href="#async" id="async" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> async</h4><p>Set to <code>false</code> if the request should be sent synchronously. Defaults to <code>true</code>. Note that if you set this option to <code>false</code>, your request will block execution of other code until the response is received.</p>
+									<h4 class="toc-linked"><a href="#cache" id="cache" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> cache</h4><p>Whether to use a cached response if available. Defaults to <code>true</code> for all <code>dataType</code>s except "script" and "jsonp". When set to <code>false</code>, the URL will simply have a cachebusting parameter appended to it.</p>
+									<h4 class="toc-linked"><a href="#done" id="done" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> done</h4><p>A callback function to run if the request succeeds. The function receives the response data (converted to a JavaScript object if the <code>dataType</code> was JSON), as well as the text status of the request and the raw request object.</p>
+									<h4 class="toc-linked"><a href="#fail" id="fail" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> fail</h4><p>A callback function to run if the request results in an error. The function receives the raw request object and the text status of the request.</p>
+									<h4 class="toc-linked"><a href="#always" id="always" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> always</h4><p>A callback function to run when the request is complete, regardless of success or failure. The function receives the raw request object and the text status of the request.</p>
+									<h4 class="toc-linked"><a href="#context" id="context" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> context</h4><p>The scope in which the callback function(s) should run (i.e. what <code>this</code> will mean inside the callback function(s)). By default, <code>this</code> inside the callback function(s) refers to the object originally passed to <code>$.ajax()</code>.</p>
+									<h4 class="toc-linked"><a href="#data" id="data" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> data</h4><p>The data to be sent to the server. This can either be an object or a query string, such as <code>foo=bar&amp;amp;baz=bim</code>.</p>
+									<h4 class="toc-linked"><a href="#datatype" id="datatype" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> dataType</h4><p>The type of data you expect back from the server. By default, jQuery will look at the MIME type of the response if no <code>dataType</code> is specified.</p>
+									<h4 class="toc-linked"><a href="#jsonp" id="jsonp" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> jsonp</h4><p>The callback name to send in a query string when making a JSONP request. Defaults to "callback".</p>
+									<h4 class="toc-linked"><a href="#timeout" id="timeout" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> timeout</h4><p>The time in milliseconds to wait before considering the request a failure.</p>
+									<h4 class="toc-linked"><a href="#traditional" id="traditional" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> traditional</h4><p>Set to <code>true</code> to use the param serialization style in use prior to jQuery 1.4. For details, see <a href="http://api.jquery.com/jQuery.param/">http://api.jquery.com/jQuery.param/</a>.</p>
+									<h4 class="toc-linked"><a href="#type" id="type" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> type</h4><p>The type of the request, "POST" or "GET". Defaults to "GET". Other request types, such as "PUT" and "DELETE" can be used, but they may not be supported by all browsers.</p>
+									<h4 class="toc-linked"><a href="#url" id="url" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> url</h4><p>The URL for the request.</p>
+									<p>The <code>url</code> option is the only required property of the <code>$.ajax()</code> configuration object; all other properties are optional. This can also be passed as the first argument to <code>$.ajax()</code>, and the options object as the second argument.</p>
+									<h3 class="toc-linked"><a href="#convenience-methods" id="convenience-methods" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> Convenience Methods</h3><p>If you don't need the extensive configurability of <code>$.ajax()</code>, and you don't care about handling errors, the Ajax convenience functions provided by jQuery can be useful, terse ways to accomplish Ajax requests. These methods are just "wrappers" around the core <code>$.ajax()</code> method, and simply pre-set some of the options on the <code>$.ajax()</code> method.</p>
+									<p>The convenience methods provided by jQuery are:</p>
+									<h4 class="toc-linked"><a href="#get" id="get" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> $.get</h4><p>Perform a GET request to the provided URL.</p>
+									<h4 class="toc-linked"><a href="#post" id="post" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> $.post</h4><p>Perform a POST request to the provided URL.</p>
+									<h4 class="toc-linked"><a href="#getscript" id="getscript" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> $.getScript</h4><p>Add a script to the page.</p>
+									<h4 class="toc-linked"><a href="#getjson" id="getjson" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> $.getJSON</h4><p>Perform a GET request, and expect JSON to be returned.</p>
+									<p>In each case, the methods take the following arguments, in order:</p>
+									<h4 class="toc-linked"><a href="#url" id="url" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> url</h4><p>The URL for the request. Required.</p>
+									<h4 class="toc-linked"><a href="#data" id="data" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> data</h4><p>The data to be sent to the server. Optional. This can either be an object or a query string, such as <code>foo=bar&amp;amp;baz=bim</code>.</p>
+									<p><strong>Note:</strong> This option is not valid for <code>$.getScript</code>.</p>
+									<h4 class="toc-linked"><a href="#success-callback" id="success-callback" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> success callback</h4><p>A callback function to run if the request succeeds. Optional. The function receives the response data (converted to a JavaScript object if the data type was JSON), as well as the text status of the request and the raw request object.</p>
+									<h4 class="toc-linked"><a href="#data-type" id="data-type" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> data type</h4><p>The type of data you expect back from the server. Optional.</p>
+									<p><strong>Note:</strong> This option is only applicable for methods that don't already specify the data type in their name.</p>
+									<div class="syntaxhighlighter javascript">
+										<table>
+											<tbody>
+												<tr>
+													<td class="gutter">
+														<div class="line n1">1</div>
+														<div class="line n2">2</div>
+														<div class="line n3">3</div>
+														<div class="line n4">4</div>
+														<div class="line n5">5</div>
+														<div class="line n6">6</div>
+														<div class="line n7">7</div>
+														<div class="line n8">8</div>
+														<div class="line n9">9</div>
+														<div class="line n10">10</div>
+														<div class="line n11">11</div>
+														<div class="line n12">12</div>
+														<div class="line n13">13</div>
+														<div class="line n14">14</div>
+														<div class="line n15">15</div>
+														<div class="line n16">16</div>
+														<div class="line n17">17</div>
+														<div class="line n18">18</div>
+														<div class="line n19">19</div>
+														<div class="line n20">20</div>
+														<div class="line n21">21</div>
+														<div class="line n22">22</div>
+													</td>
+													<td class="code">
+														<pre>
+															<div class="container">
+																<div class="line">
+																	<code><span class="comment">// Using jQuery's Ajax convenience methods</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code> </code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code><span class="comment">// Get plain text or HTML</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>$.get( <span class="string">"/users.php"</span>, {</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    userId: <span class="number">1234</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>}, <span class="keyword">function</span>( resp ) {</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    console.log( resp ); <span class="comment">// server response</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>});</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code> </code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code><span class="comment">// Add a script to the page, then run a function defined in it</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>$.getScript( <span class="string">"/static/js/myScript.js"</span>, <span class="keyword">function</span>() {</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    functionFromMyScript();</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>});</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code> </code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code><span class="comment">// Get JSON-formatted data from the server</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>$.getJSON( <span class="string">"/details.php"</span>, <span class="keyword">function</span>( resp ) {</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code> </code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    <span class="comment">// Log each key in the response data</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    $.each( resp, <span class="keyword">function</span>( key, value ) {</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>        console.log( key + <span class="string">" : "</span> + value );</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    });</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>});</code>
+																</div>
+															</div>
+														</pre>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<h3 class="toc-linked"><a href="#fn-load" id="fn-load" class="icon-link toc-link"><span class="visuallyhidden">link</span></a> <code>$.fn.load</code></h3>
+									<p>The <code>.load()</code> method is unique among jQuery’s Ajax methods in that it is called on a selection. The <code>.load()</code> method fetches HTML from a URL, and uses the returned HTML to populate the selected element(s). In addition to providing a URL to the method, you can optionally provide a selector; jQuery will fetch only the matching content from the returned HTML.</p>
+									<div class="syntaxhighlighter javascript">
+										<table>
+											<tbody>
+												<tr>												
+													<td class="gutter">
+														<div class="line n1">1</div>
+														<div class="line n2">2</div>
+													</td>
+													<td class="code">
+														<pre>
+															<div class="container">
+																<div class="line">
+																	<code><span class="comment">// Using .load() to populate an element</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>$( <span class="string">"#newContent"</span> ).load( <span class="string">"/foo.html"</span> );</code>
+																</div>
+															</div>
+														</pre>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<div class="syntaxhighlighter javascript">
+										<table>
+											<tbody>
+												<tr>											
+													<td class="gutter">							
+														<div class="line n1">1</div>
+														<div class="line n2">2</div>
+														<div class="line n3">3</div>
+														<div class="line n4">4</div>
+													</td>
+													<td class="code">
+														<pre>
+															<div class="container">
+																<div class="line">
+																	<code><span class="comment">// Using .load() to populate an element based on a selector</span></code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>$( <span class="string">"#newContent"</span> ).load( <span class="string">"/foo.html #myDiv h1:first"</span>, <span class="keyword">function</span>( html ) {</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>    alert( <span class="string">"Content updated!"</span> );</code>
+																</div>
+															</div>
+															<div class="container">
+																<div class="line">
+																	<code>});</code>
+																</div>
+															</div>
+														</pre>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
 						</section>
 					</div>
 					<div class="tab-pane fade" id="nav-plugins" role="tabpanel" aria-labelledby="nav-plugins-tab">
 						<section class="main-section">
 							<header class="entry-title">Plugins</header>
 						</section>
+						<div class="entry-content">
+							<p>A jQuery plugin is simply a new method that we use to extend jQuery's prototype object. By extending the prototype object you enable all jQuery objects to inherit any methods that you add. As established, whenever you call <code>jQuery()</code> you're creating a new jQuery object, with all of jQuery's methods inherited.</p>
+							<p>The idea of a plugin is to do something with a collection of elements. You could consider each method that comes with the jQuery core a plugin, like <code>.fadeOut()</code> or <code>.addClass()</code>.</p>
+							<p>You can make your own plugins and use them privately in your code or you can release them into the wild. There are thousands of jQuery plugins available online. The barrier to creating a plugin of your own is so low that you'll want to do it straight away!</p>
+							<ul>
+								<li class="page_item page-item-84"><a href="https://learn.jquery.com/plugins/finding-evaluating-plugins/">Finding &amp; Evaluating Plugins</a></li>
+								<li class="page_item page-item-69"><a href="https://learn.jquery.com/plugins/basic-plugin-creation/">How to Create a Basic Plugin</a></li>
+								<li class="page_item page-item-47"><a href="https://learn.jquery.com/plugins/advanced-plugin-concepts/">Advanced Plugin Concepts</a></li>
+								<li class="page_item page-item-105"><a href="https://learn.jquery.com/plugins/stateful-plugins-with-widget-factory/">Writing Stateful Plugins with the jQuery UI Widget Factory</a></li>
+							</ul>
+						</div>
 					</div>
 					<div class="tab-pane fade" id="nav-performance" role="tabpanel" aria-labelledby="nav-performance-tab">
 						<section class="main-section">
 							<header class="entry-title">Performance</header>
 						</section>
+						<div class="entry-content">
+							<ul>
+								<li class="page_item page-item-48"><a href="https://learn.jquery.com/performance/append-outside-loop/">Append Outside of Loops</a></li>
+								<li class="page_item page-item-65"><a href="https://learn.jquery.com/performance/cache-loop-length/">Cache Length During Loops</a></li>
+								<li class="page_item page-item-98"><a href="https://learn.jquery.com/performance/detach-elements-before-work-with-them/">Detach Elements to Work with Them</a></li>
+								<li class="page_item page-item-117"><a href="https://learn.jquery.com/performance/dont-act-on-absent-elements/">Don’t Act on Absent Elements</a></li>
+								<li class="page_item page-item-129"><a href="https://learn.jquery.com/performance/optimize-selectors/">Optimize Selectors</a></li>
+								<li class="page_item page-item-149"><a href="https://learn.jquery.com/performance/use-stylesheets-for-changing-css/">Use Stylesheets for Changing CSS on Many Elements</a></li>
+								<li class="page_item page-item-137"><a href="https://learn.jquery.com/performance/read-the-source/">Don’t Treat jQuery as a Black Box</a></li>
+							</ul>
+						</div>
 					</div>
 					<div class="tab-pane fade" id="nav-organization" role="tabpanel" aria-labelledby="nav-organization-tab">
 						<section class="main-section">
 							<header class="entry-title">Code Organization</header>
 						</section>
+						<div class="entry-content">
+							<p>Understanding the basic mechanics is one thing, but the essence of building applications is understanding how to organize code so that it is navigable and well-encapsulated instead of a whole slew of global functions.</p>
+							<ul>
+								<li class="page_item page-item-66"><a href="https://learn.jquery.com/code-organization/concepts/">Code Organization Concepts</a></li>
+								<li class="page_item page-item-39"><a href="https://learn.jquery.com/code-organization/beware-anonymous-functions/">Beware Anonymous Functions</a></li>
+								<li class="page_item page-item-81"><a href="https://learn.jquery.com/code-organization/dont-repeat-yourself/">Keep Things DRY</a></li>
+								<li class="page_item page-item-96"><a href="https://learn.jquery.com/code-organization/feature-browser-detection/">Feature &amp; Browser Detection</a></li>
+								<li class="page_item page-item-227 page_item_has_children"><a href="https://learn.jquery.com/code-organization/deferreds/">Deferreds</a>
+									<ul class="children">
+										<li class="page_item page-item-229"><a href="https://learn.jquery.com/code-organization/deferreds/jquery-deferreds/">jQuery Deferreds</a></li>
+										<li class="page_item page-item-228"><a href="https://learn.jquery.com/code-organization/deferreds/examples/">Deferred examples</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
 					</div>
 					<div class="tab-pane fade" id="nav-ua" role="tabpanel" aria-labelledby="nav-ua-tab">
 						<section class="main-section">
 							<header class="entry-title">jQuery UI</header>
 						</section>
+						<div class="entry-content">
+							<p><a href="http://jqueryui.com">jQuery UI</a> is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.</p>
+							<p>jQuery UI contains many widgets that maintain state and therefore have a slightly different usage pattern than typical jQuery plugins. All of jQuery UI's widgets use the same patterns, so if you learn how to use one, then you'll know how to use all of them.</p>
+							<ul>
+								<li class="page_item page-item-379"><a href="https://learn.jquery.com/jquery-ui/getting-started/">Getting Started with jQuery UI</a></li>
+								<li class="page_item page-item-380"><a href="https://learn.jquery.com/jquery-ui/how-jquery-ui-works/">How jQuery UI Works</a></li>
+								<li class="page_item page-item-381"><a href="https://learn.jquery.com/jquery-ui/theming/">Theming jQuery UI</a></li>
+								<li class="page_item page-item-1139"><a href="https://learn.jquery.com/jquery-ui/themeroller/">Using jQuery UI ThemeRoller</a></li>
+								<li class="page_item page-item-382 page_item_has_children"><a href="https://learn.jquery.com/jquery-ui/widget-factory/">Widget Factory</a>
+									<ul class="children">
+										<li class="page_item page-item-387"><a href="https://learn.jquery.com/jquery-ui/widget-factory/why-use-the-widget-factory/">Why Use the Widget Factory?</a></li>
+										<li class="page_item page-item-386"><a href="https://learn.jquery.com/jquery-ui/widget-factory/how-to-use-the-widget-factory/">How To Use the Widget Factory</a></li>
+										<li class="page_item page-item-780"><a href="https://learn.jquery.com/jquery-ui/widget-factory/widget-method-invocation/">Widget Method Invocation</a></li>
+										<li class="page_item page-item-778"><a href="https://learn.jquery.com/jquery-ui/widget-factory/extending-widgets/">Extending Widgets with the Widget Factory</a></li>
+										<li class="page_item page-item-1276"><a href="https://learn.jquery.com/jquery-ui/widget-factory/classes-option/">Using the classes Option</a></li>
+									</ul>
+								</li>
+								<li class="page_item page-item-970 page_item_has_children"><a href="https://learn.jquery.com/jquery-ui/environments/">Using jQuery UI</a>
+									<ul class="children">
+										<li class="page_item page-item-972"><a href="https://learn.jquery.com/jquery-ui/environments/amd/">Using jQuery UI with AMD</a></li>
+										<li class="page_item page-item-974"><a href="https://learn.jquery.com/jquery-ui/environments/bower/">Using jQuery UI with Bower</a></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
 					</div>
 					<div class="tab-pane fade" id="nav-mobile" role="tabpanel" aria-labelledby="nav-mobile-tab">
 						<section class="main-section">
